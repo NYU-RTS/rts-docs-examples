@@ -1,9 +1,7 @@
 
 ### How to run the script:
-You'll need to set the following environment variables:
+You'll need to set the following environment variable:
 - `PORTKEY_API_KEY`
-- `PORTKEY_VIRTUAL_KEY`
-and when they are present you can run the script as described below:
 ```
 ss19980@ITS-JQKQGQQMTX ~/D/p/r/g/rag (main)> uv run rag_basic.py --help
 usage: rag_basic [-h] url query
