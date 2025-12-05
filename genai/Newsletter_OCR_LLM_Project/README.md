@@ -1,5 +1,8 @@
 
-# README — Scanned documents to data base creation (Phase 1)
+# README — From Scanned Documents to Use-Case ready text formats (Database Creation, Index Creation, Dataframe creations etc)
+
+This project was created by Professor Jessica Seigel for converting all *Women Arts Newsletters* into a database.
+Executed by *Jovita Gandhi: jg8316@nyu.edu* (RA for NYU Research Technology Services) under the supervision of *Sajid Ali: ss19980@nyu.edu*
 
 This repository contains the full workflow for converting scanned documents into clean, readable, structured text files using OCR and LLM-based post-processing.
 
@@ -34,9 +37,21 @@ This README explains the entire workflow used in the notebook and supporting scr
 
 # 1. Data Source (Original PDFs)
 
-![Article from the newsletter](Newsletter_OCR_LLM_Project/images/article.png)
-![Calendar Exhibits/Group Shows section](Newsletter_OCR_LLM_Project/images/calendar_exhibits.png)
-![First Page of the Newsletter](Newsletter_OCR_LLM_Project/images/first_page.png)
+<div style="text-align: center; margin-bottom: 20px;">
+  <p><strong>Article from the newsletter</strong></p>
+  <img src="images/article.png" width="350">
+</div>
+
+<div style="text-align: center; margin-bottom: 20px;">
+  <p><strong>Calendar Exhibits / Group Shows</strong></p>
+  <img src="images/calendar_exhibits.png" width="350">
+</div>
+
+<div style="text-align: center; margin-bottom: 20px;">
+  <p><strong>First Page of the Newsletter</strong></p>
+  <img src="images/first_page.png" width="350">
+</div>
+
 
 We begin with scanned issues of the *Women Artists Newsletter*. As we can see, these scans contain irregular formatting, artifacts, shadows, multi-column layouts, and inconsistent spacing, making them unsuitable for direct text analysis.
 
@@ -48,7 +63,8 @@ In this use case, it was incredibly important to have the *correct* entity names
 
 After much research and experimentation, using a pre trained OCR model such as Amazon textract, or Google vision seemed like the appropriate next step. Google Vision showed extremely promising results. This leads us to the OCR phase.
 
-The entire process is available as a hands on in the Workflow.ipynb file.
+The entire process is available as a hands on in [Workflow.ipynb](genai/Newsletter_OCR_LLM_Project/Workflow.ipynb)
+
 
 ---
 
@@ -140,7 +156,7 @@ The model performs:
 
 ### Note: We instruct the LLM to keep things verbatim, this makes sure that there is no hallucination. If we let the LLM "correct minor errors", it may hallucinate and fix entity names that are actually correct. The cleaned therefore remains faithful to the original and avoids hallucination.
 
-This process is conducted by defining all our rules in a clearly structure prompt. This prompt can be found in the Wokrflow.ipynb file, or in the separate prompts.txt file
+This process is conducted by defining all our rules in a clearly structure prompt. This prompt can be found in the Wokrflow.ipynb file, or in the separate [prompts.txt](genai/Newsletter_OCR_LLM_Project/prompts.txt)
 
 ---
 
@@ -165,6 +181,9 @@ The prompt we used follows the following structure:
 ---
 
 # 6. Final Output Example: 
+* The final outputs are included in [Parsable Versions Folder](genai/Newsletter_OCR_LLM_Project/parsable_versions)
+
+"""
 
 TITLE: GENDER IN ART AN ONGOING DIALOGUE
 WRITER: Sophie Rivera
@@ -208,6 +227,7 @@ Because women's work has been discriminated against for years, many women are pa
 
 ....
 
+"""
 ---
 
 # 10. Bonus Use Case : Indexing
@@ -243,3 +263,9 @@ ___
 * This method can be applicable for unstructured data such as this newsletter. 
 * The final output of this project, scaled to about 100 files, and about 2000 pages, was used to create a data base of all artists and contributors mentioned in the Women Arts Newsletter.
 * These results can also by easily used for creating a RAG workflow, where the underlying data is all the structured extracted/generated materials.
+
+
+___
+
+# 12. Final thoughts
+* Please feel free to contact Jovita Gandhi: jg8316@nyu.edu or NYU RTS for any further queries
