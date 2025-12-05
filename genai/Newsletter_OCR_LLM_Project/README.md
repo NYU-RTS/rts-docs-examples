@@ -23,7 +23,7 @@ This README explains the entire workflow used in the notebook and supporting scr
 
 ```
 .
-├── Books_OCR_Project/
+├── Newsletter_OCR_LLM_Project/
 │   ├── OCR_versions/               # Raw OCR .txt files
 │   ├── parsable_versions/          # Cleaned text files (LLM formatted)
 ├── Workflow.ipynb                  # Full end-to-end pipeline
@@ -34,9 +34,9 @@ This README explains the entire workflow used in the notebook and supporting scr
 
 # 1. Data Source (Original PDFs)
 
-![Article from the newsletter](Books_OCR_Project/images/article.png)
-![Calendar Exhibits/Group Shows section](Books_OCR_Project/images/calendar_exhibits.png)
-![First Page of the Newsletter](Books_OCR_Project/images/first_page.png)
+![Article from the newsletter](Newsletter_OCR_LLM_Project/images/article.png)
+![Calendar Exhibits/Group Shows section](Newsletter_OCR_LLM_Project/images/calendar_exhibits.png)
+![First Page of the Newsletter](Newsletter_OCR_LLM_Project/images/first_page.png)
 
 We begin with scanned issues of the *Women Artists Newsletter*. As we can see, these scans contain irregular formatting, artifacts, shadows, multi-column layouts, and inconsistent spacing, making them unsuitable for direct text analysis.
 
@@ -57,7 +57,7 @@ The entire process is available as a hands on in the Workflow.ipynb file.
 OCR (performed via GCP) produces `.txt` files stored in:
 
 ```
-Books_OCR_Project/OCR_versions/
+Newsletter_OCR_LLM_Project/OCR_versions/
 ```
 
 Example filenames:
