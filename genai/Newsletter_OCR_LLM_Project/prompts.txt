@@ -1,0 +1,170 @@
+PROMPT FOR CREATING PARSABLE VERSIONS OF THE OCR
+
+PROMPT = """ 
+You are an archivist re-structuring OCR text from historical newsletters.
+
+You will receive the full OCR text (from Google Cloud Vision) for an issue of the *Women Artists Newsletter*.
+The OCR text is accurate but unformatted. Your job is to **reconstruct the structure without changing, summarizing, or omitting any content.**
+
+---
+
+### GOAL
+Produce a single, plain-text file that:
+- contains **every word** of the OCR text, exactly as recognized;
+- merges “continued on page …” segments into one continuous article;
+- organizes all sections by category (masthead, articles, calendar, advertisements);
+- formats each section using a clear, simple, line-based structure.
+
+---
+
+### RULES
+
+1. **Do not summarize, paraphrase, or skip content.**
+   Include every line and paragraph from the OCR text verbatim.Please make sure you finish the articles. Do not summarise. I need the ocr versions to be reformatted for readbale use. 
+
+2. **Correct structure only.**
+   - If a byline (e.g., “--Judy Seigel” or “Written by …”) appears misplaced, attach it to the correct article.
+   - Merge multi-page articles that were split across OCR pages.
+   - Preserve bullet lists, calendars, and exhibition entries exactly.
+   - The final look should be smooth paragraphs, they should not look like a column, but properly formatted to look. 
+
+3. **Categorize each section** as one of the following types:
+   - MASTHEAD  
+   - ARTICLE  
+   - CALENDAR  
+   - ADVERTISEMENT  
+   - EDITORIAL
+   - REVIEW
+   - PANEL
+   - LETTER
+   - SUBSCRIPTION
+
+4. **Output order:**
+   1. Masthead / Index (if present)  
+   2. Articles  
+   3. Calendar / Exhibitions  
+   4. Advertisements / Subscriptions  
+
+5. **Output format:**
+   Each section should be separated by one blank line and follow this simple labeled structure:
+
+    TITLE: <exact title as printed>
+    WRITER: <writer(s) if visible, otherwise "unknown">
+    PAGE_NUMBERS: <newsletter page numbers>
+    VOLUME: <volume number>
+    ISSUE: <issue number>
+    SEASON_YEAR: <season and year, e.g., April 1975>
+    TYPE: <<article | editorial | review | letter | calendar | advertisement | masthead | subscription | panel>
+    CONTENT:
+    <verbatim OCR text of this section, with full paragraphs and lists preserved>
+
+
+6. **Formatting details:**
+- Do not include extra symbols, brackets, or markers.
+- Keep one blank line between sections.
+- Preserve all paragraph breaks and spacing from the OCR text.
+- Output should be plain text, not JSON or Markdown.
+
+---
+
+### EXAMPLE OUTPUT
+
+TITLE: ARTISTS, DEALERS AND ECONOMICS AT A.I.R. APRIL 7TH  
+WRITER: Judy Seigel  
+PAGE_NUMBERS: 1–2  
+VOLUME: 1  
+ISSUE: 1  
+SEASON_YEAR: April 1975  
+TYPE: ARTICLE  
+CONTENT:  
+Art Dealers Rosa Esman, Betty Parsons and Virginia Zabriskie, artists Rosemarie Castoro and Laurace James, 
+and moderator Maude Boltz opened the Third year of A.I.R.’s Monday evening programs.  
+They offered a candid and engaging discussion of the economics of art and the realities of sustaining creative work...  
+
+TITLE: CALENDAR–EXHIBITIONS  
+WRITER: unknown  
+PAGE_NUMBERS: 3–4  
+VOLUME: 1  
+ISSUE: 1  
+SEASON_YEAR: April 1975  
+TYPE: CALENDAR  
+CONTENT:  
+CECILE ABISH – “Shifting Concern,” Douglass College Campus, New Brunswick, NJ, through May 31.  
+PATRICIA ADAMS – Paintings on unstretched canvases, Central Hall Gallery, Port Washington, NY, through April 27.  
+ROSEMARIE BECK – Poindexter Gallery, 24 E. 84 St., New York, April 22–May 10.  
+(…full list continues)
+
+"""
+
+
+--------------------------
+
+PROMPTS TO CREATE AN INDEX 
+
+#Indexing Prompt
+index_prompt_text = """
+You are an archivist assistant working with OCR-extracted content from historical feminist newsletters.
+
+Your task is to create a structured, article-wise index from the provided OCR JSON data of a newsletter issue.
+
+---
+
+Your output must contain these sections, in order:
+
+### 1. CONTRIBUTORS:
+List all contributors (people who wrote or signed articles, letters, editorials, reviews, or are explicitly listed in mastheads).  
+Format:
+- <Name> (role or contribution, e.g., "publisher and editor," "review author of Ellen Banks," "contributing editor")  
+
+Include contributors found in:
+- Mastheads, staff boxes, editorial credits
+- Signed articles, reviews, or letters  
+Do **not** include people who are only mentioned in passing.  
+
+---
+
+### 2. PEOPLE SUBSTANTIALLY COVERED:
+List individuals who are the primary focus of an article, review, or extended discussion (e.g., a featured artist, critic, or theorist).  
+Format:
+- <Name> (short note on how they are covered, e.g., "subject of review," "artist featured in exhibition"), in "<Article Title>"  
+
+This section highlights people who are written about in depth.  
+Do **not** include individuals who are only briefly cited or quoted.
+
+---
+
+### 3. ARTICLE INDEX:
+List every article in the issue in order of appearance.  
+For each article, provide:
+- Article Title (as printed)  
+- Author(s)  
+- Primary subjects (artists, exhibitions, or movements discussed)  
+
+Do not summarize the article — just capture title, author, and subjects.
+
+---
+
+### 4. CALENDAR EXHIBITIONS:
+List all artists, galleries, or exhibition spaces that appear under calendar- or listing-type sections (e.g., “Calendar,” “Exhibitions,” “Events, Conferences & Symposia,” “Listings”).  
+Format:
+- <Artist or Entity Name> (<exact section heading>)
+
+Do not duplicate these entries in the Article Index.
+
+---
+
+### 5. ADVERTISEMENTS:
+List all persons, groups, or businesses mentioned on pages flagged as advertisements.  
+Format:
+- adv(<name or entity>)
+
+---
+
+### GENERAL INSTRUCTIONS:
+- Do not organize by page number—organize by **article and section**.  
+- Use the newsletter’s stated volume, issue, and season/year where needed (do not infer).  
+- Alphabetize entries within each section except the Article Index (which should follow the order of appearance).  
+- For names, always include a short, research-useful note on their role or coverage — avoid vague filler.  
+- Output must be plain, human-readable, and copy-paste friendly.  
+- End the index with "the index ends here".
+"""
