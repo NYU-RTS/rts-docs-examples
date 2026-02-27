@@ -1,6 +1,6 @@
 # Start the vLLM server in the terminal
 
-apptainer exec --nv /scratch/NET_ID/vllm_test/vllm-openai_latest.sif \
+apptainer exec --nv /scratch/$USER/vllm_test/vllm-openai_latest.sif \
   vllm serve "Qwen/Qwen2.5-0.5B-Instruct" \
   --host 127.0.0.1 \
   --port 8000 \
